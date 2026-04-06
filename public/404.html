@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script>
+      // GitHub Pages SPA redirect: encode the path into the query string
+      // so index.html can restore it after load.
+      var path = window.location.pathname.replace('/aurora', '') || '/'
+      window.location.replace(
+        window.location.origin + '/aurora/?path=' + encodeURIComponent(path)
+      )
+    </script>
+  </head>
+  <body></body>
+</html>
