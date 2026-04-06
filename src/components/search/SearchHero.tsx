@@ -1,4 +1,3 @@
-import { CONFIRM_ICON } from '../../styles/tokens'
 
 type SearchMode = 'browse' | 'chat'
 
