@@ -7,18 +7,35 @@ interface DocumentCardProps {
 }
 
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+  return new Date(iso).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+}
+
+function relativeAge(iso: string): string {
+  const now = new Date()
+  const then = new Date(iso)
+  const months = (now.getFullYear() - then.getFullYear()) * 12 + (now.getMonth() - then.getMonth())
+  if (months < 2) return 'Recent'
+  if (months < 12) return `${months}mo ago`
+  const years = Math.floor(months / 12)
+  return `${years}yr ago`
 }
 
 export function DocumentCard({ document: doc }: DocumentCardProps) {
+  const age = relativeAge(doc.lastUpdated)
+  const isRecent = !age.includes('yr')
+
   return (
     <article className="bg-aurora-bg-content border border-aurora-separator border-l-4 border-l-aurora-asf-partial rounded-lg p-5 hover:shadow-md transition-shadow">
-      {/* Division + date */}
+      {/* Division + dates */}
       <div className="flex items-center justify-between gap-4 mb-2">
         <span className="text-xs text-aurora-hint">{doc.division}</span>
-        <span className="text-xs text-aurora-hint shrink-0">
-          Chair Meeting: {formatDate(doc.chairMeetingDate)}
-        </span>
+        <div className="flex items-center gap-3 shrink-0 text-xs text-aurora-hint">
+          <span>Chair Meeting: {formatDate(doc.chairMeetingDate)}</span>
+          <span>·</span>
+          <span className={isRecent ? 'text-aurora-asf-yes font-medium' : ''}>
+            Updated {formatDate(doc.lastUpdated)} ({age})
+          </span>
+        </div>
       </div>
 
       <ExternalLink

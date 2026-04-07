@@ -20,6 +20,7 @@ export interface Investment {
   status: InvestmentStatus
   investmentId: string
   startDate: string
+  endDate: string
   approvedAmount: number
   ownerStaff: string
   managingTeam: string
@@ -74,6 +75,7 @@ export interface StrategyDocument {
   title: string
   division: string
   chairMeetingDate: string
+  lastUpdated: string
   source: { label: string; url: string }
   summary: string
 }

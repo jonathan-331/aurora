@@ -7,19 +7,29 @@ import { ResultsArea } from '../components/results/ResultsArea'
 import { AiChatPanel } from '../components/search/AiChatPanel'
 import type { ActiveTab, FilterState } from '../types'
 import { search } from '../services/search'
+import { FILTER_CATEGORIES, buildFlatIndex } from '../data/filterOptions'
+
+const FILTER_LABEL_MAP: Record<string, string> = {}
+for (const opt of buildFlatIndex(FILTER_CATEGORIES)) {
+  FILTER_LABEL_MAP[opt.id] = opt.label
+}
 
 type SearchMode = 'browse' | 'chat'
 
 export function SearchPage() {
   const [searchParams] = useSearchParams()
   const initialQuery = searchParams.get('q') ?? ''
+  const initialTab   = (searchParams.get('tab') as ActiveTab) ?? 'all'
   const [inputValue, setInputValue]     = useState(initialQuery)
   const [submittedQuery, setSubmitted]  = useState(initialQuery)
-  const [activeTab, setActiveTab]       = useState<ActiveTab>('all')
+  const [activeTab, setActiveTab]       = useState<ActiveTab>(initialTab)
   const [filters, setFilters]           = useState<FilterState>({ selectedOptions: new Set() })
   const [mode, setMode]                 = useState<SearchMode>('browse')
 
-  const results = useMemo(() => search(submittedQuery), [submittedQuery])
+  const results = useMemo(
+    () => search(submittedQuery, filters.selectedOptions),
+    [submittedQuery, filters.selectedOptions]
+  )
 
   const counts = {
     all:          results.investments.length + results.organizations.length + results.staff.length + results.documents.length,
@@ -96,6 +106,26 @@ export function SearchPage() {
                   <p className="text-xs text-aurora-hint">Showing all entity types</p>
                 )}
               </div>
+
+              {/* Active filter banner */}
+              {filters.selectedOptions.size > 0 && (
+                <div className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs bg-aurora-bg-content border border-aurora-separator rounded-lg px-4 py-2.5">
+                  <span className="text-aurora-hint font-medium shrink-0">Filtered by:</span>
+                  {Array.from(filters.selectedOptions).map((id) => (
+                    <span key={id} className="flex items-center gap-1 text-aurora-label">
+                      <span className="w-1.5 h-1.5 rounded-full bg-aurora-link shrink-0" />
+                      {FILTER_LABEL_MAP[id] ?? id}
+                    </span>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => setFilters({ selectedOptions: new Set() })}
+                    className="ml-auto text-aurora-link hover:text-aurora-link-hover transition-colors shrink-0"
+                  >
+                    Clear all
+                  </button>
+                </div>
+              )}
 
               <div className="rounded-t-lg overflow-hidden border border-b-0 border-aurora-separator">
                 <ResultTabs activeTab={activeTab} counts={counts} onTabChange={setActiveTab} />

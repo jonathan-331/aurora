@@ -153,10 +153,12 @@ export function CountryProfilePage() {
           <nav className="text-xs text-white/50 mb-3 flex items-center gap-3">
             <button type="button" onClick={() => navigate(-1)} className="flex items-center gap-1 hover:text-white/80 transition-colors">
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M8 2L4 6l4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              Back to results
+              Back
             </button>
             <span>·</span>
-            <span>Countries › <span className="text-white/80">{country.name}</span></span>
+            <Link to="/geography" className="hover:text-white/80 transition-colors">Countries</Link>
+            <span>›</span>
+            <span className="text-white/80">{country.name}</span>
           </nav>
           <div className="flex items-center gap-3">
             <span className="text-4xl" role="img" aria-label={`${country.name} flag`}>{country.flag}</span>

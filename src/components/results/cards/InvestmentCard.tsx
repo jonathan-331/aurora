@@ -62,6 +62,7 @@ export function InvestmentCard({ investment }: InvestmentCardProps) {
       <div className="bg-aurora-bg-wide rounded-md px-4 py-3 mb-4 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3">
         <MetaItem label="Investment ID" value={investment.investmentId} mono />
         <MetaItem label="Start Date" value={formatDate(investment.startDate)} />
+        <MetaItem label="End Date" value={formatDate(investment.endDate)} />
         <MetaItem label="Approved Amount" value={formatCurrency(investment.approvedAmount)} />
         {investment.subawardeeCount !== undefined
           ? <MetaItem label="Subawardees" value={String(investment.subawardeeCount)} />

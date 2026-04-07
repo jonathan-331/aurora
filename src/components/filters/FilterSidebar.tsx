@@ -250,7 +250,7 @@ function countSelected(nodes: FilterNode[], selected: Set<string>): number {
 
 export function FilterSidebar({ selectedOptions, onToggle, onClearAll }: FilterSidebarProps) {
   const [query, setQuery]                       = useState('')
-  const [expandedCategories, setExpandedCats]   = useState<Set<string>>(new Set())
+  const [expandedCategories, setExpandedCats]   = useState<Set<string>>(new Set(['investment-statuses', 'managing-teams']))
   const [expandedNodes, setExpandedNodes]       = useState<Set<string>>(new Set())
 
   // Flat index for search

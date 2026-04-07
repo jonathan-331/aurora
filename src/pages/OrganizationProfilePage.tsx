@@ -196,10 +196,12 @@ export function OrganizationProfilePage() {
           <nav className="text-xs text-white/50 mb-3 flex items-center gap-3">
             <button type="button" onClick={() => navigate(-1)} className="flex items-center gap-1 hover:text-white/80 transition-colors">
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M8 2L4 6l4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              Back to results
+              Back
             </button>
             <span>·</span>
-            <span>Organizations › <span className="text-white/80">{org.name}</span></span>
+            <Link to="/search?tab=organization" className="hover:text-white/80 transition-colors">Organizations</Link>
+            <span>›</span>
+            <span className="text-white/80">{org.name}</span>
           </nav>
           <div className="flex items-start justify-between gap-4">
             <h1 className="text-aurora-on-dark text-2xl font-bold tracking-tight">{org.name}</h1>
@@ -234,7 +236,7 @@ export function OrganizationProfilePage() {
           <div>
             <dt className="text-[10px] font-semibold uppercase tracking-wider text-aurora-hint mb-0.5">Sources</dt>
             <dd className="flex flex-wrap gap-3">
-              {org.sourceDetails.map((s) => (
+              {org.sourceDetails.filter((s) => s.url !== org.website).map((s) => (
                 <ExternalLink key={s.label} href={s.url} className="text-sm text-aurora-link hover:text-aurora-link-hover transition-colors flex items-center gap-1">
                   <svg width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                     <path d="M5 2H2v8h8V7M7 2h3v3M7 5l3-3" stroke="#3864CD" strokeWidth="1.3" strokeLinecap="round" />
