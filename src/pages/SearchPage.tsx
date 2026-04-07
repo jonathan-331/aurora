@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { SearchHero } from '../components/search/SearchHero'
 import { FilterSidebar } from '../components/filters/FilterSidebar'
 import { ResultTabs } from '../components/results/ResultTabs'
@@ -10,8 +11,10 @@ import { search } from '../services/search'
 type SearchMode = 'browse' | 'chat'
 
 export function SearchPage() {
-  const [inputValue, setInputValue]     = useState('')
-  const [submittedQuery, setSubmitted]  = useState('')
+  const [searchParams] = useSearchParams()
+  const initialQuery = searchParams.get('q') ?? ''
+  const [inputValue, setInputValue]     = useState(initialQuery)
+  const [submittedQuery, setSubmitted]  = useState(initialQuery)
   const [activeTab, setActiveTab]       = useState<ActiveTab>('all')
   const [filters, setFilters]           = useState<FilterState>({ selectedOptions: new Set() })
   const [mode, setMode]                 = useState<SearchMode>('browse')

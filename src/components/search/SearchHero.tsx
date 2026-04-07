@@ -53,7 +53,7 @@ export function SearchHero({ query, onChange, onSubmit, mode, onModeChange }: Se
                 <path d="M6 1L7.3 4H11L8.5 6L9.5 9.5L6 7.5L2.5 9.5L3.5 6L1 4H4.7L6 1Z"
                   fill={mode === 'chat' ? '#0B3C38' : 'currentColor'} />
               </svg>
-              Ask AI
+              Ask Aurora AI
             </button>
           </div>
         </div>

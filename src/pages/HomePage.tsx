@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const STATS = [
@@ -51,8 +52,17 @@ const TILES = [
   },
 ]
 
+const QUICK_TERMS = ['Vaccine Delivery', 'East Africa', 'Digital Finance', 'Maternal Health', 'WASH']
+
 export function HomePage() {
   const navigate = useNavigate()
+  const [query, setQuery] = useState('')
+
+  function handleSearch(e: React.FormEvent) {
+    e.preventDefault()
+    if (query.trim()) navigate(`/search?q=${encodeURIComponent(query.trim())}`)
+  }
+
   return (
     <div className="min-h-screen bg-aurora-bg-main">
 
@@ -92,13 +102,50 @@ export function HomePage() {
           <h1 className="text-aurora-on-dark text-4xl sm:text-5xl font-bold tracking-tight mb-5 leading-tight">
             Aurora Knowledge Portal
           </h1>
-          <p className="text-white/55 text-lg leading-relaxed max-w-xl mx-auto mb-12">
+          <p className="text-white/55 text-lg leading-relaxed max-w-xl mx-auto mb-8">
             Explore the Gates Foundation's investment portfolio, partner organizations,
             and strategic priorities — all in one place.
           </p>
 
+          {/* Search bar */}
+          <form onSubmit={handleSearch} className="w-full max-w-2xl mx-auto mb-5">
+            <div className="flex rounded-lg overflow-hidden shadow-lg ring-2 ring-transparent focus-within:ring-aurora-link/50 transition-all bg-aurora-bg-content">
+              <span className="flex items-center pl-4 text-aurora-hint shrink-0">
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <circle cx="9" cy="9" r="6" stroke="currentColor" strokeWidth="1.8" />
+                  <path d="M13.5 13.5L17 17" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                </svg>
+              </span>
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search by topic, organization, staff name, region…"
+                className="flex-1 px-3 py-3.5 text-aurora-body placeholder-aurora-hint text-[15px] outline-none bg-transparent"
+              />
+              <button
+                type="submit"
+                className="bg-aurora-tbl-header hover:bg-aurora-tbl-header-sort text-aurora-on-dark font-medium text-sm px-6 py-3.5 shrink-0 transition-colors"
+              >
+                Search
+              </button>
+            </div>
+            <div className="mt-3 flex flex-wrap gap-1.5 justify-center">
+              {QUICK_TERMS.map((term) => (
+                <button
+                  key={term}
+                  type="button"
+                  onClick={() => navigate(`/search?q=${encodeURIComponent(term)}`)}
+                  className="px-2.5 py-0.5 rounded-full text-xs text-white/70 border border-white/25 hover:bg-white/10 hover:text-aurora-on-dark transition-colors"
+                >
+                  {term}
+                </button>
+              ))}
+            </div>
+          </form>
+
           {/* Stats embedded in hero */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 sm:gap-16">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 sm:gap-16 mt-6">
             {STATS.map((stat) => (
               <div key={stat.label}>
                 <p className="text-3xl font-bold text-aurora-on-dark tabular-nums">{stat.value}</p>

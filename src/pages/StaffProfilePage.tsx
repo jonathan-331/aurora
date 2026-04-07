@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { StaffNameLink } from '../components/ui/StaffNameLink'
 import { mockStaffProfiles } from '../mocks/staffProfiles'
 import { ExternalLink } from '../components/ExternalLink'
@@ -38,6 +38,7 @@ function SectionHeader({ title }: { title: string }) {
 
 export function StaffProfilePage() {
   const { id } = useParams<{ id: string }>()
+  const navigate = useNavigate()
   const profile = mockStaffProfiles.find((s) => s.id === id)
 
   if (!profile) {
@@ -87,10 +88,13 @@ export function StaffProfilePage() {
       {/* Page header */}
       <div className="bg-aurora-org-section border-t border-white/10 pt-8 pb-8 px-6">
         <div className="max-w-screen-xl mx-auto">
-          <nav className="text-xs text-white/50 mb-3">
-            <Link to="/search" className="hover:text-white/80 transition-colors">Foundation Staff</Link>
-            <span className="mx-1.5">›</span>
-            <span className="text-white/80">{profile.name}</span>
+          <nav className="text-xs text-white/50 mb-3 flex items-center gap-3">
+            <button type="button" onClick={() => navigate(-1)} className="flex items-center gap-1 hover:text-white/80 transition-colors">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M8 2L4 6l4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              Back to results
+            </button>
+            <span>·</span>
+            <span>Foundation Staff › <span className="text-white/80">{profile.name}</span></span>
           </nav>
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-full bg-aurora-tbl-header border-2 border-white/20 flex items-center justify-center text-white text-lg font-semibold shrink-0">

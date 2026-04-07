@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { StaffNameLink } from '../components/ui/StaffNameLink'
 import { mockOrgProfiles } from '../mocks/orgProfiles'
 import { ExternalLink } from '../components/ExternalLink'
@@ -150,6 +150,7 @@ function PartnerList({ title, partners }: { title: string; partners: PartnerRela
 
 export function OrganizationProfilePage() {
   const { id } = useParams<{ id: string }>()
+  const navigate = useNavigate()
   const org = mockOrgProfiles.find((o) => o.id === id)
 
   if (!org) {
@@ -192,10 +193,13 @@ export function OrganizationProfilePage() {
       {/* Page header */}
       <div className="bg-aurora-org-section border-t border-white/10 pt-8 pb-8 px-6">
         <div className="max-w-screen-xl mx-auto">
-          <nav className="text-xs text-white/50 mb-3">
-            <Link to="/search" className="hover:text-white/80 transition-colors">Organizations</Link>
-            <span className="mx-1.5">›</span>
-            <span className="text-white/80">{org.name}</span>
+          <nav className="text-xs text-white/50 mb-3 flex items-center gap-3">
+            <button type="button" onClick={() => navigate(-1)} className="flex items-center gap-1 hover:text-white/80 transition-colors">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M8 2L4 6l4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              Back to results
+            </button>
+            <span>·</span>
+            <span>Organizations › <span className="text-white/80">{org.name}</span></span>
           </nav>
           <div className="flex items-start justify-between gap-4">
             <h1 className="text-aurora-on-dark text-2xl font-bold tracking-tight">{org.name}</h1>

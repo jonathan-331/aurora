@@ -146,7 +146,7 @@ export function AiChatPanel() {
           </button>
         </div>
         <p className="text-[10px] text-aurora-hint mt-2">
-          AI responses are simulated for prototype purposes · Press Enter to send
+          Ask questions in plain English · AI responses are simulated for prototype purposes
         </p>
       </div>
     </div>

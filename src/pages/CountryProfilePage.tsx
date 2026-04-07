@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { StaffNameLink } from '../components/ui/StaffNameLink'
 import { mockCountryProfiles } from '../mocks/countryProfiles'
 import { ExternalLink } from '../components/ExternalLink'
@@ -65,6 +65,7 @@ function StaffCard({ staff }: { staff: ProfileStaff }) {
 
 export function CountryProfilePage() {
   const { id } = useParams<{ id: string }>()
+  const navigate = useNavigate()
   const country = mockCountryProfiles.find((c) => c.id === id)
 
   if (!country) {
@@ -149,10 +150,13 @@ export function CountryProfilePage() {
       {/* Page header */}
       <div className="bg-aurora-org-section border-t border-white/10 pt-8 pb-8 px-6">
         <div className="max-w-screen-xl mx-auto">
-          <nav className="text-xs text-white/50 mb-3">
-            <Link to="/geography" className="hover:text-white/80 transition-colors">Countries</Link>
-            <span className="mx-1.5">›</span>
-            <span className="text-white/80">{country.name}</span>
+          <nav className="text-xs text-white/50 mb-3 flex items-center gap-3">
+            <button type="button" onClick={() => navigate(-1)} className="flex items-center gap-1 hover:text-white/80 transition-colors">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M8 2L4 6l4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              Back to results
+            </button>
+            <span>·</span>
+            <span>Countries › <span className="text-white/80">{country.name}</span></span>
           </nav>
           <div className="flex items-center gap-3">
             <span className="text-4xl" role="img" aria-label={`${country.name} flag`}>{country.flag}</span>
